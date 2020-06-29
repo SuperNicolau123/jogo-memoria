@@ -1,4 +1,5 @@
-const cards = document.querySelectorAll('.memory-card');
+ const cards = document.querySelectorAll('.memory-card');
+  var pontuacao = 0;
 
   let hasFlippedCard = false;
   let lockBoard = false;
@@ -31,6 +32,7 @@ const cards = document.querySelectorAll('.memory-card');
    secondCard.removeEventListener('click', flipCard);
    
    resetBoard();
+   pontuar(++pontuacao);
  }
 
  function unflipCards() {
@@ -41,7 +43,8 @@ const cards = document.querySelectorAll('.memory-card');
      secondCard.classList.remove('flip');
      
    resetBoard();
-   }, 1500);
+   }, 1000);
+   pontuar(--pontuacao);
  }
    
   function resetBoard() {
@@ -51,9 +54,30 @@ const cards = document.querySelectorAll('.memory-card');
  
  (function shuffle() {
    cards.forEach(card => {
-     let ramdomPos = Math.floor(Math.random() * 12);
+     let ramdomPos = Math.floor(Math.random() * 24);
      card.style.order = ramdomPos;
    });
  })();
-
+ 
 cards.forEach(card => card.addEventListener('click', flipCard));
+
+ localStorage.setItem("record", 0);
+ var record = localStorage.getItem("record");
+ 
+ function pontuar(pontos){
+    var spanPontuacao = document.getElementById("pontuacao")
+    spanPontuacao.innerHTML = pontos
+    
+    if(pontuacao <= 0){
+      pontuacao = 1;
+    }
+    
+    if (pontos > record){
+      record = pontos
+      localStorage("record", record);
+    }
+    
+    var spanRecord = document.getElementById("record")
+    spanRecord.innerHTML = record;
+
+ }
